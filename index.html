@@ -1,0 +1,3003 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            FlowGuide — The work you keep putting off, finally done today
+        </title>
+        <meta
+            name="description"
+            content="You're not lazy — your flat to-do list just never showed you where to start. FlowGuide lights up the single next move so 'I'll do it later' finally becomes done."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                /* ===== ORANGE BRAND (kept as-is) ===== */
+                --orange: #ff6a1a;
+                --orange-dark: #e8530a;
+                --orange-soft: #fff3ec;
+                --orange-tint: #ffe2d1;
+                --ink: #181210;
+                --ink-soft: #4a3f37;
+                --muted: #837669;
+                --line: #efe4d9;
+                --white: #ffffff;
+                --paper: #fdf9f4;
+                --cream: #f6ece1;
+                --navy: #221a16; /* dark window bar / dashboard */
+                --green: #1f9d56;
+                --green-soft: #e8f6ee;
+                --ember: linear-gradient(
+                    135deg,
+                    #ff8a3d 0%,
+                    #ff6a1a 45%,
+                    #e8530a 100%
+                );
+                --radius: 16px;
+                --shadow-sm: 0 2px 10px rgba(26, 20, 16, 0.06);
+                --shadow-md: 0 12px 32px rgba(232, 83, 10, 0.14);
+                --shadow-lg: 0 24px 60px rgba(232, 83, 10, 0.18);
+                --shadow-xl: 0 40px 90px -20px rgba(120, 45, 8, 0.35);
+                --glow:
+                    0 0 0 1.5px rgba(255, 106, 26, 0.35),
+                    0 18px 50px -10px rgba(255, 106, 26, 0.55);
+                --font:
+                    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    Roboto, sans-serif;
+                --font-serif:
+                    "Instrument Serif", Georgia, "Times New Roman", serif;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                font-family: var(--font);
+                color: var(--ink);
+                background: var(--white);
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+                overflow-x: hidden;
+            }
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+            img {
+                max-width: 100%;
+                display: block;
+            }
+            .container {
+                width: min(1160px, 92%);
+                margin: 0 auto;
+            }
+
+            /* ---------- Buttons ---------- */
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 700;
+                font-size: 1rem;
+                cursor: pointer;
+                border: none;
+                border-radius: 999px;
+                padding: 14px 28px;
+                transition:
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease,
+                    background 0.2s ease;
+            }
+            .btn-primary {
+                background: var(--ember);
+                color: #fff;
+                box-shadow: var(--shadow-md);
+            }
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-lg);
+            }
+            .btn-ghost {
+                background: var(--white);
+                color: var(--orange-dark);
+                border: 1.5px solid var(--orange-tint);
+                box-shadow: var(--shadow-sm);
+            }
+            .btn-ghost:hover {
+                border-color: var(--orange);
+                background: var(--orange-soft);
+            }
+            .btn-lg {
+                padding: 17px 34px;
+                font-size: 1.06rem;
+            }
+            .link-cta {
+                display: inline-flex;
+                align-items: center;
+                font-weight: 700;
+                color: var(--orange-dark);
+                text-decoration: underline;
+                text-underline-offset: 4px;
+                text-decoration-thickness: 1.5px;
+                transition: color 0.2s;
+            }
+            .link-cta:hover {
+                color: var(--ink);
+            }
+
+            /* ============ NAV ============ */
+            header {
+                position: sticky;
+                top: 0;
+                z-index: 50;
+                background: rgba(253, 249, 244, 0.78);
+                backdrop-filter: blur(14px) saturate(140%);
+                border-bottom: 1px solid var(--line);
+            }
+            header::before {
+                content: "";
+                position: absolute;
+                inset: 0 0 auto 0;
+                height: 3px;
+                background: var(--ember);
+            }
+            nav {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 74px;
+                position: relative;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                font-weight: 800;
+                font-size: 1.28rem;
+                letter-spacing: -0.03em;
+            }
+            .logo-mark {
+                width: 36px;
+                height: 36px;
+                border-radius: 11px;
+                background: var(--ember);
+                display: grid;
+                place-items: center;
+                color: #fff;
+                box-shadow: var(--shadow-md);
+            }
+            .logo-mark svg {
+                width: 20px;
+                height: 20px;
+            }
+            .nav-links {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 30px;
+                align-items: center;
+            }
+            .nav-links a {
+                font-weight: 500;
+                font-size: 0.97rem;
+                color: var(--ink-soft);
+                transition: color 0.2s;
+            }
+            .nav-links a:hover {
+                color: var(--orange-dark);
+            }
+            .nav-cta {
+                display: flex;
+                gap: 18px;
+                align-items: center;
+            }
+            .nav-login {
+                font-weight: 600;
+                font-size: 0.95rem;
+                color: var(--ink);
+            }
+            .nav-login:hover {
+                color: var(--orange-dark);
+            }
+            .menu-toggle {
+                display: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1.6rem;
+                color: var(--ink);
+            }
+
+            /* ============ HERO (centered) ============ */
+            .hero {
+                position: relative;
+                padding: 84px 0 0;
+                overflow: hidden;
+                background:
+                    radial-gradient(
+                        900px 420px at 86% -8%,
+                        rgba(255, 138, 61, 0.22),
+                        transparent 60%
+                    ),
+                    linear-gradient(180deg, var(--paper) 0%, #fff 88%);
+            }
+            .hero-orb {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(60px);
+                z-index: 0;
+                pointer-events: none;
+            }
+            .hero-orb.a {
+                width: 420px;
+                height: 420px;
+                right: -80px;
+                top: -120px;
+                background: rgba(255, 138, 61, 0.3);
+            }
+            .hero-orb.b {
+                width: 300px;
+                height: 300px;
+                left: -60px;
+                top: 40px;
+                background: rgba(255, 106, 26, 0.14);
+            }
+            .hero-copy {
+                position: relative;
+                z-index: 2;
+                text-align: center;
+                max-width: 760px;
+                margin: 0 auto;
+            }
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: #fff;
+                color: var(--orange-dark);
+                border: 1px solid var(--orange-tint);
+                padding: 7px 16px;
+                border-radius: 999px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                margin-bottom: 26px;
+                box-shadow: var(--shadow-sm);
+            }
+            .pill .dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--orange);
+                animation: pulse 2s infinite;
+            }
+            @keyframes pulse {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.3;
+                }
+            }
+            h1 {
+                font-size: clamp(2.6rem, 6vw, 4.4rem);
+                font-weight: 800;
+                letter-spacing: -0.04em;
+                line-height: 1.03;
+                margin-bottom: 22px;
+            }
+            h1 em {
+                font-family: var(--font-serif);
+                font-style: italic;
+                font-weight: 400;
+                color: var(--orange-dark);
+            }
+            h1 .strike {
+                position: relative;
+                color: var(--muted);
+                white-space: nowrap;
+            }
+            h1 .strike::after {
+                content: "";
+                position: absolute;
+                left: -2%;
+                right: -2%;
+                top: 54%;
+                height: 3px;
+                background: var(--orange);
+                border-radius: 3px;
+                transform: rotate(-1.8deg);
+            }
+            .hero-sub {
+                font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+                color: var(--ink-soft);
+                max-width: 540px;
+                margin: 0 auto 34px;
+            }
+            .hero-actions {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 28px;
+                flex-wrap: wrap;
+            }
+            .micro {
+                font-size: 0.85rem;
+                color: var(--muted);
+                margin-top: 22px;
+            }
+            .micro b {
+                color: var(--ink);
+            }
+
+            /* ---------- HERO VISUAL: dashboard mockup ---------- */
+            .hero-visual {
+                position: relative;
+                z-index: 2;
+                max-width: 940px;
+                margin: 64px auto 0;
+                padding-bottom: 80px;
+            }
+            .dash {
+                position: relative;
+                background: var(--navy);
+                border-radius: 20px 20px 0 0;
+                box-shadow: var(--shadow-xl);
+                padding: 22px 26px 40px;
+                color: #fff;
+            }
+            .dash-bar {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+            .dash-bar .dot-mark {
+                width: 30px;
+                height: 30px;
+                border-radius: 8px;
+                background: var(--ember);
+                display: grid;
+                place-items: center;
+            }
+            .dash-bar .dot-mark svg {
+                width: 16px;
+                height: 16px;
+            }
+            .dash-tabs {
+                display: flex;
+                gap: 7px;
+                margin: 0 auto;
+            }
+            .dash-tabs span {
+                width: 34px;
+                height: 6px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.18);
+            }
+            .dash-ava {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background: var(--ember);
+            }
+            .panel {
+                background: #fff;
+                border-radius: 14px;
+                padding: 22px;
+                color: var(--ink);
+                max-width: 600px;
+            }
+            .panel-title {
+                font-weight: 700;
+                font-size: 1rem;
+                margin-bottom: 16px;
+            }
+            .stat-row {
+                display: flex;
+                gap: 12px;
+                margin-bottom: 22px;
+                flex-wrap: wrap;
+            }
+            .stat {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 10px 14px;
+                font-size: 0.85rem;
+                color: var(--muted);
+                font-weight: 500;
+            }
+            .stat b {
+                color: var(--ink);
+                font-size: 1.1rem;
+                margin-left: 2px;
+            }
+            .stat .plus {
+                width: 24px;
+                height: 24px;
+                border-radius: 7px;
+                background: var(--orange-soft);
+                color: var(--orange-dark);
+                display: grid;
+                place-items: center;
+                font-weight: 700;
+            }
+            .row-head,
+            .task-row {
+                display: grid;
+                grid-template-columns: 1.6fr 1fr 1fr;
+                align-items: center;
+                gap: 10px;
+            }
+            .row-head {
+                font-size: 0.72rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--muted);
+                font-weight: 600;
+                padding: 0 4px 12px;
+                border-bottom: 1px solid var(--line);
+            }
+            .task-row {
+                padding: 14px 4px;
+                border-bottom: 1px solid var(--line);
+                font-size: 0.9rem;
+            }
+            .task-row:last-child {
+                border-bottom: none;
+            }
+            .who {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 600;
+            }
+            .who .pic {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: grid;
+                place-items: center;
+                font-size: 0.72rem;
+                font-weight: 700;
+                color: #fff;
+            }
+            .badge {
+                display: inline-flex;
+                font-size: 0.74rem;
+                font-weight: 600;
+                padding: 4px 10px;
+                border-radius: 999px;
+            }
+            .badge.done {
+                background: var(--green-soft);
+                color: var(--green);
+            }
+            .badge.now {
+                background: var(--orange-soft);
+                color: var(--orange-dark);
+            }
+            .badge.later {
+                background: var(--cream);
+                color: var(--muted);
+            }
+            .task-row .time {
+                color: var(--muted);
+                font-size: 0.82rem;
+            }
+            .float-panel {
+                position: absolute;
+                right: 18px;
+                bottom: -30px;
+                width: 250px;
+                background: #fff;
+                border: 1.5px solid var(--orange);
+                border-radius: 16px;
+                padding: 18px;
+                box-shadow: var(--shadow-lg);
+                z-index: 3;
+            }
+            .float-panel h4 {
+                text-align: center;
+                font-size: 1rem;
+                margin-bottom: 14px;
+            }
+            .mini {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 11px 12px;
+                margin-bottom: 10px;
+            }
+            .mini:last-child {
+                margin-bottom: 0;
+            }
+            .mini .ic {
+                width: 34px;
+                height: 34px;
+                border-radius: 9px;
+                display: grid;
+                place-items: center;
+                font-size: 1rem;
+                flex-shrink: 0;
+            }
+            .mini .txt b {
+                display: block;
+                font-size: 0.86rem;
+            }
+            .mini .txt small {
+                color: var(--muted);
+                font-size: 0.74rem;
+            }
+
+            /* ---------- Logos ---------- */
+            .logos {
+                padding: 44px 0;
+                border-bottom: 1px solid var(--line);
+            }
+            .logos p {
+                text-align: center;
+                color: var(--muted);
+                font-size: 0.85rem;
+                margin-bottom: 20px;
+                font-weight: 600;
+                letter-spacing: 0.04em;
+            }
+            .logo-row {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 44px;
+                opacity: 0.55;
+                font-weight: 800;
+                font-size: 1.2rem;
+                color: var(--muted);
+            }
+
+            /* ---------- Section base ---------- */
+            section.block {
+                padding: 96px 0;
+            }
+            .section-head {
+                text-align: center;
+                max-width: 640px;
+                margin: 0 auto 56px;
+            }
+            .eyebrow {
+                color: var(--orange-dark);
+                font-weight: 700;
+                font-size: 0.9rem;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+            }
+            h2 {
+                font-size: clamp(1.8rem, 4vw, 2.6rem);
+                font-weight: 800;
+                letter-spacing: -0.025em;
+                line-height: 1.15;
+            }
+            .section-head p {
+                color: var(--muted);
+                font-size: 1.1rem;
+                margin-top: 14px;
+            }
+
+            /* ============ PROBLEM ============ */
+            .problem {
+                background: linear-gradient(180deg, #fff 0%, var(--cream) 100%);
+            }
+            .problem-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+                align-items: center;
+            }
+            .problem-lead h2 em {
+                font-family: var(--font-serif);
+                font-style: italic;
+                font-weight: 400;
+                color: var(--orange-dark);
+            }
+            .problem-lead p {
+                color: var(--ink-soft);
+                font-size: 1.08rem;
+                margin-top: 18px;
+                max-width: 460px;
+            }
+            .truth {
+                margin-top: 26px;
+                font-size: 1.28rem;
+                font-weight: 700;
+                color: var(--ink);
+                line-height: 1.4;
+            }
+            .truth span {
+                display: block;
+                color: var(--orange-dark);
+            }
+            .problem-voices {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+            .voice {
+                background: #fff;
+                border: 1px solid var(--line);
+                border-left: 3px solid var(--orange);
+                border-radius: 14px;
+                padding: 20px 22px;
+                box-shadow: var(--shadow-sm);
+                transition:
+                    transform 0.25s ease,
+                    box-shadow 0.25s ease;
+            }
+            .voice:hover {
+                transform: translateX(4px);
+                box-shadow: var(--shadow-md);
+            }
+            .voice .q {
+                font-family: var(--font-serif);
+                font-style: italic;
+                font-size: 1.2rem;
+                color: var(--ink);
+                line-height: 1.42;
+            }
+            .voice .tag {
+                display: inline-block;
+                margin-top: 12px;
+                font-size: 0.71rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: var(--orange-dark);
+                background: var(--orange-soft);
+                padding: 4px 10px;
+                border-radius: 999px;
+            }
+
+            /* ============ INTUITIVE / SOLUTION (ref 2 — top) ============ */
+            .solution-grid {
+                display: grid;
+                grid-template-columns: 1fr 1.1fr;
+                gap: 60px;
+                align-items: center;
+            }
+            .solution-copy h2 {
+                margin-bottom: 18px;
+            }
+            .solution-copy p {
+                color: var(--ink-soft);
+                font-size: 1.08rem;
+                max-width: 420px;
+                margin-bottom: 28px;
+            }
+            /* UI mockup window */
+            .ui-window {
+                background: #fff;
+                border: 1px solid var(--line);
+                border-radius: 18px;
+                box-shadow: var(--shadow-xl);
+                overflow: hidden;
+            }
+            .ui-bar {
+                display: flex;
+                gap: 7px;
+                padding: 14px 18px;
+                background: var(--cream);
+                border-bottom: 1px solid var(--line);
+            }
+            .ui-bar i {
+                width: 11px;
+                height: 11px;
+                border-radius: 50%;
+                background: #d9ccbe;
+            }
+            .ui-body {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+            }
+            .ui-steps {
+                padding: 24px;
+                border-right: 1px solid var(--line);
+            }
+            .ui-skel {
+                height: 8px;
+                width: 60%;
+                border-radius: 999px;
+                background: var(--cream);
+                margin-bottom: 22px;
+            }
+            .step-line {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 20px;
+                font-size: 0.92rem;
+                font-weight: 600;
+                color: var(--ink-soft);
+            }
+            .step-line .mark {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                display: grid;
+                place-items: center;
+                flex-shrink: 0;
+            }
+            .step-line .mark.ok {
+                background: var(--green);
+                color: #fff;
+            }
+            .step-line .mark.active {
+                background: var(--orange);
+                color: #fff;
+                box-shadow: 0 0 0 4px var(--orange-soft);
+            }
+            .step-line.active {
+                color: var(--ink);
+                font-weight: 700;
+            }
+            .step-line .mark.idle {
+                background: var(--cream);
+            }
+            .step-line.idle {
+                color: #bdb0a3;
+            }
+            .step-line.idle .bar {
+                flex: 1;
+                height: 8px;
+                border-radius: 999px;
+                background: var(--cream);
+            }
+            .ui-foot {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: 8px;
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: var(--orange-dark);
+                background: var(--orange-soft);
+                padding: 8px 14px;
+                border-radius: 999px;
+                width: fit-content;
+            }
+            .ui-right {
+                padding: 24px;
+            }
+            .ui-right .label {
+                font-weight: 700;
+                font-size: 0.95rem;
+                margin-bottom: 16px;
+            }
+            .ui-right .sub {
+                font-size: 0.78rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--muted);
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            .chip-dark {
+                display: inline-block;
+                background: var(--navy);
+                color: #fff;
+                font-size: 0.78rem;
+                font-weight: 600;
+                padding: 6px 13px;
+                border-radius: 999px;
+                margin-bottom: 16px;
+            }
+            .ui-skel.long {
+                width: 100%;
+                margin-bottom: 12px;
+            }
+            .ui-skel.mid {
+                width: 75%;
+            }
+            .ui-tile {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 12px;
+                margin: 16px 0;
+                font-weight: 700;
+                color: var(--ink-soft);
+            }
+            .ui-tile .tic {
+                width: 30px;
+                height: 30px;
+                border-radius: 8px;
+                background: var(--orange-soft);
+                display: grid;
+                place-items: center;
+            }
+            .ui-next {
+                display: flex;
+                justify-content: flex-end;
+            }
+            .ui-next .nbtn {
+                background: var(--ember);
+                color: #fff;
+                font-size: 0.8rem;
+                font-weight: 700;
+                padding: 8px 16px;
+                border-radius: 999px;
+            }
+
+            /* ============ STATS BAND (ref 2 — bottom) ============ */
+            .band {
+                position: relative;
+                display: grid;
+                grid-template-columns: 1fr 1.05fr;
+                align-items: stretch;
+                background: var(--ember);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: var(--shadow-lg);
+                min-height: 360px;
+            }
+            .band-photo {
+                position: relative;
+                background-size: cover;
+                background-position: center;
+            }
+            .band-photo::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: -1px;
+                bottom: 0;
+                width: 90px;
+                background: var(--orange);
+                clip-path: ellipse(100% 75% at 100% 50%);
+            }
+            .band-copy {
+                padding: 54px 48px;
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .band-copy h2 {
+                color: #fff;
+                max-width: 420px;
+                margin-bottom: 26px;
+            }
+            .band-list {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+            .band-list li {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                list-style: none;
+                font-size: 1.06rem;
+                font-weight: 600;
+            }
+            .band-list .ck {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: rgba(34, 26, 22, 0.85);
+                display: grid;
+                place-items: center;
+                flex-shrink: 0;
+            }
+            .band-list .ck svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            /* ---------- How it works ---------- */
+            .steps {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 28px;
+            }
+            .step {
+                border-radius: var(--radius);
+                background: #fff;
+                border: 1px solid var(--line);
+                box-shadow: var(--shadow-sm);
+                overflow: hidden;
+                transition:
+                    transform 0.25s,
+                    box-shadow 0.25s;
+            }
+            .step:hover {
+                transform: translateY(-6px);
+                box-shadow: var(--shadow-md);
+            }
+            .step .shot {
+                width: 100%;
+                height: 168px;
+                object-fit: cover;
+                display: block;
+            }
+            .step .step-body {
+                padding: 26px 30px 32px;
+                position: relative;
+            }
+            .step .num {
+                width: 46px;
+                height: 46px;
+                border-radius: 12px;
+                background: var(--ember);
+                color: #fff;
+                font-weight: 800;
+                font-size: 1.2rem;
+                display: grid;
+                place-items: center;
+                box-shadow: var(--shadow-md);
+                position: absolute;
+                top: -23px;
+                left: 30px;
+            }
+            .step h3 {
+                font-size: 1.25rem;
+                margin: 16px 0 10px;
+            }
+            .step p {
+                color: var(--muted);
+            }
+
+            /* ---------- Features (bento) ---------- */
+            .features {
+                background: linear-gradient(
+                    180deg,
+                    var(--orange-soft) 0%,
+                    #fff 100%
+                );
+            }
+            .bento {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 20px;
+            }
+            .bento .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                background: #fff;
+                border: 1px solid var(--line);
+                border-radius: 20px;
+                padding: 28px;
+                box-shadow: var(--shadow-sm);
+                transition:
+                    transform 0.25s ease,
+                    box-shadow 0.25s ease,
+                    border-color 0.25s ease;
+            }
+            .bento .card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-md);
+                border-color: var(--orange-tint);
+            }
+            .bento .lg {
+                grid-column: span 3;
+            }
+            .bento .sm {
+                grid-column: span 2;
+            }
+            .bento .wide {
+                grid-column: span 6;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 32px;
+            }
+            .bento .ic {
+                width: 48px;
+                height: 48px;
+                border-radius: 13px;
+                background: var(--orange-soft);
+                color: var(--orange-dark);
+                display: grid;
+                place-items: center;
+                margin-bottom: 18px;
+            }
+            .bento .ic svg {
+                width: 24px;
+                height: 24px;
+            }
+            .bento h3 {
+                font-size: 1.18rem;
+                margin-bottom: 8px;
+                letter-spacing: -0.01em;
+            }
+            .bento p {
+                color: var(--muted);
+                font-size: 0.96rem;
+            }
+
+            /* Spotlight demo */
+            .spot-demo {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 22px;
+            }
+            .spot-demo .t-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid var(--line);
+                border-radius: 11px;
+                padding: 11px 14px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--muted);
+                background: var(--paper);
+            }
+            .spot-demo .t-row.dim {
+                opacity: 0.5;
+            }
+            .spot-demo .t-row.hot {
+                color: var(--ink);
+                background: #fff;
+                border: 1.5px solid var(--orange);
+                box-shadow: var(--glow);
+            }
+            .spot-demo .here {
+                flex-shrink: 0;
+                font-size: 0.66rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                background: var(--ember);
+                color: #fff;
+                padding: 4px 9px;
+                border-radius: 999px;
+            }
+
+            /* Flow board demo */
+            .board-demo {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin-top: 22px;
+            }
+            .board-demo .bcol {
+                background: var(--paper);
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 12px 10px;
+                min-height: 104px;
+            }
+            .board-demo .bhead {
+                display: block;
+                font-size: 0.64rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--muted);
+                margin-bottom: 10px;
+            }
+            .board-demo i {
+                display: block;
+                height: 15px;
+                border-radius: 6px;
+                background: #e6d8c9;
+                margin-bottom: 7px;
+            }
+            .board-demo i.o {
+                background: var(--orange);
+            }
+            .board-demo i.g {
+                background: var(--green);
+            }
+
+            /* Accent chip (time-boxing + nudges) */
+            .accent-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                margin-top: 16px;
+                background: var(--orange-soft);
+                color: var(--orange-dark);
+                font-weight: 700;
+                font-size: 0.83rem;
+                padding: 8px 14px;
+                border-radius: 999px;
+                width: fit-content;
+            }
+            .accent-chip svg {
+                width: 15px;
+                height: 15px;
+            }
+            .accent-chip.green {
+                background: var(--green-soft);
+                color: var(--green);
+            }
+
+            /* Streak demo */
+            .streak-demo {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                flex-wrap: wrap;
+                margin-top: 18px;
+            }
+            .streak-demo .d {
+                width: 15px;
+                height: 15px;
+                border-radius: 5px;
+                background: var(--orange-tint);
+            }
+            .streak-demo .d.on {
+                background: var(--orange);
+            }
+            .streak-demo .lbl {
+                margin-left: 8px;
+                font-weight: 700;
+                font-size: 0.82rem;
+                color: var(--orange-dark);
+            }
+
+            /* Avatar stack (team card) */
+            .wide .wide-copy {
+                max-width: 540px;
+            }
+            .wide .wide-copy .ic {
+                margin-bottom: 16px;
+            }
+            .ava-stack {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+            }
+            .ava-stack .av {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                display: grid;
+                place-items: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 0.82rem;
+                border: 2.5px solid #fff;
+                margin-left: -12px;
+                box-shadow: var(--shadow-sm);
+            }
+            .ava-stack .av:first-child {
+                margin-left: 0;
+            }
+            .ava-stack .more {
+                margin-left: 14px;
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: var(--muted);
+                white-space: nowrap;
+            }
+
+            .mini .ic svg,
+            .ui-tile .tic svg,
+            .ui-foot svg {
+                width: 18px;
+                height: 18px;
+            }
+            .ui-foot svg {
+                vertical-align: -3px;
+            }
+
+            /* ============ TESTIMONIALS (ref 3) ============ */
+            .testi {
+                background: var(--cream);
+            }
+            .testi h2 {
+                font-size: clamp(2rem, 4.5vw, 3rem);
+                margin-bottom: 44px;
+                max-width: 720px;
+            }
+            .testi-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+            .tcard {
+                background: #fff;
+                border-radius: var(--radius);
+                padding: 32px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid var(--line);
+                transition:
+                    transform 0.25s,
+                    box-shadow 0.25s;
+            }
+            .tcard:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-md);
+            }
+            .tcard .quote {
+                font-size: 1.02rem;
+                color: var(--ink-soft);
+                line-height: 1.65;
+                margin-bottom: 28px;
+            }
+            .tcard .person {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+            .tcard .face {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+                flex-shrink: 0;
+                border: 2px solid #fff;
+                box-shadow: var(--shadow-sm);
+            }
+            .tcard .person b {
+                display: block;
+                font-size: 0.95rem;
+                color: var(--ink);
+            }
+            .tcard .person small {
+                color: var(--muted);
+                font-size: 0.86rem;
+            }
+
+            /* ---------- CTA band / Pricing ---------- */
+            .cta-wrap {
+                padding: 96px 0;
+            }
+            .cta-band {
+                position: relative;
+                overflow: hidden;
+                background: var(--ember);
+                border-radius: 32px;
+                padding: 76px 40px;
+                text-align: center;
+                color: #fff;
+                box-shadow: var(--shadow-xl);
+            }
+            .cta-band::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(
+                        520px 300px at 50% -12%,
+                        rgba(255, 255, 255, 0.3),
+                        transparent 60%
+                    ),
+                    radial-gradient(
+                        circle at 88% 115%,
+                        rgba(34, 26, 22, 0.38),
+                        transparent 55%
+                    );
+                pointer-events: none;
+            }
+            .cta-band::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(
+                    rgba(255, 255, 255, 0.2) 1.2px,
+                    transparent 1.2px
+                );
+                background-size: 22px 22px;
+                -webkit-mask-image: radial-gradient(
+                    circle at 50% 38%,
+                    #000 0%,
+                    transparent 72%
+                );
+                mask-image: radial-gradient(
+                    circle at 50% 38%,
+                    #000 0%,
+                    transparent 72%
+                );
+                opacity: 0.55;
+                pointer-events: none;
+            }
+            .cta-inner {
+                position: relative;
+                z-index: 1;
+                max-width: 660px;
+                margin: 0 auto;
+            }
+
+            .cta-trust {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                backdrop-filter: blur(4px);
+                border-radius: 999px;
+                padding: 6px 16px 6px 8px;
+                margin-bottom: 26px;
+            }
+            .cta-avatars {
+                display: flex;
+            }
+            .cta-avatars span {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                border: 2px solid #fff;
+                margin-left: -8px;
+                background-size: cover;
+                background-position: center;
+            }
+            .cta-avatars span:first-child {
+                margin-left: 0;
+            }
+            .cta-trust .stars {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                color: #fff;
+                font-size: 0.86rem;
+                font-weight: 600;
+            }
+            .cta-trust .stars svg {
+                width: 14px;
+                height: 14px;
+                color: #fff2cf;
+            }
+
+            .cta-band h2 {
+                color: #fff;
+                font-size: clamp(2rem, 4.5vw, 3rem);
+                letter-spacing: -0.025em;
+            }
+            .cta-band p {
+                color: rgba(255, 255, 255, 0.92);
+                font-size: 1.12rem;
+                margin: 16px auto 32px;
+                max-width: 520px;
+            }
+            .cta-actions {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+            .cta-band .btn-white {
+                background: #fff;
+                color: var(--orange-dark);
+            }
+            .cta-band .btn-white:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-lg);
+            }
+            .cta-band .btn-outline {
+                background: rgba(255, 255, 255, 0.12);
+                color: #fff;
+                border: 1.5px solid rgba(255, 255, 255, 0.5);
+            }
+            .cta-band .btn-outline:hover {
+                background: rgba(255, 255, 255, 0.2);
+                border-color: #fff;
+                transform: translateY(-2px);
+            }
+            .cta-fine {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px 22px;
+                margin-top: 28px;
+                color: rgba(255, 255, 255, 0.92);
+                font-size: 0.88rem;
+                font-weight: 500;
+            }
+            .cta-fine span {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+            }
+            .cta-fine svg {
+                width: 15px;
+                height: 15px;
+            }
+
+            /* ---------- FAQ ---------- */
+            .faq {
+                background: linear-gradient(180deg, #fff 0%, var(--cream) 100%);
+            }
+            .faq-layout {
+                display: grid;
+                grid-template-columns: 0.85fr 1.15fr;
+                gap: 56px;
+                align-items: start;
+            }
+            .faq-aside {
+                position: sticky;
+                top: 104px;
+            }
+            .faq-aside .eyebrow {
+                color: var(--orange-dark);
+                font-weight: 700;
+                font-size: 0.9rem;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+            }
+            .faq-aside h2 {
+                font-size: clamp(1.8rem, 4vw, 2.6rem);
+            }
+            .faq-aside p {
+                color: var(--muted);
+                font-size: 1.05rem;
+                margin-top: 14px;
+                max-width: 340px;
+            }
+            .faq-support {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-top: 30px;
+                background: #fff;
+                border: 1px solid var(--line);
+                border-radius: 16px;
+                padding: 16px 18px;
+                box-shadow: var(--shadow-sm);
+                max-width: 340px;
+            }
+            .faq-support-ic {
+                width: 44px;
+                height: 44px;
+                border-radius: 12px;
+                background: var(--orange-soft);
+                color: var(--orange-dark);
+                display: grid;
+                place-items: center;
+                flex-shrink: 0;
+            }
+            .faq-support-ic svg {
+                width: 22px;
+                height: 22px;
+            }
+            .faq-support b {
+                display: block;
+                font-size: 0.95rem;
+                margin-bottom: 2px;
+            }
+
+            .faq-list {
+                max-width: none;
+                margin: 0;
+            }
+            .faq-item {
+                border: 1px solid var(--line);
+                border-radius: 16px;
+                margin-bottom: 14px;
+                background: #fff;
+                overflow: hidden;
+                transition:
+                    border-color 0.25s ease,
+                    box-shadow 0.25s ease;
+            }
+            .faq-item:last-child {
+                margin-bottom: 0;
+            }
+            .faq-item:hover {
+                border-color: var(--orange-tint);
+            }
+            .faq-item.open {
+                border-color: var(--orange);
+                box-shadow: var(--shadow-md);
+            }
+            .faq-q {
+                width: 100%;
+                text-align: left;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 22px 24px;
+                font-size: 1.05rem;
+                font-weight: 700;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 18px;
+                color: var(--ink);
+                font-family: var(--font);
+                line-height: 1.4;
+            }
+            .faq-q .chev {
+                flex-shrink: 0;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background: var(--orange-soft);
+                color: var(--orange-dark);
+                display: grid;
+                place-items: center;
+                font-size: 1.25rem;
+                line-height: 1;
+                transition:
+                    transform 0.3s ease,
+                    background 0.25s ease,
+                    color 0.25s ease;
+            }
+            .faq-item.open .chev {
+                background: var(--ember);
+                color: #fff;
+                transform: rotate(45deg);
+            }
+            .faq-a {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                color: var(--ink-soft);
+                padding: 0 24px;
+            }
+            .faq-a p {
+                padding-right: 28px;
+            }
+            .faq-item.open .faq-a {
+                max-height: 320px;
+                padding-bottom: 22px;
+            }
+
+            @media (max-width: 920px) {
+                .faq-layout {
+                    grid-template-columns: 1fr;
+                    gap: 36px;
+                }
+                .faq-aside {
+                    position: static;
+                }
+                .faq-aside p,
+                .faq-support {
+                    max-width: none;
+                }
+            }
+
+            /* ---------- Footer ---------- */
+            footer {
+                background: var(--navy);
+                color: #fff;
+                padding: 64px 0 30px;
+            }
+            .foot-cta {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 32px;
+                flex-wrap: wrap;
+                padding-bottom: 44px;
+                margin-bottom: 44px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .foot-cta h3 {
+                font-size: 1.5rem;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+            }
+            .foot-cta p {
+                color: rgba(255, 255, 255, 0.6);
+                margin-top: 8px;
+                max-width: 440px;
+            }
+            .foot-form {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .foot-form input {
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.16);
+                border-radius: 999px;
+                padding: 14px 20px;
+                color: #fff;
+                font-family: var(--font);
+                font-size: 0.95rem;
+                min-width: 240px;
+                outline: none;
+                transition:
+                    border-color 0.2s ease,
+                    background 0.2s ease;
+            }
+            .foot-form input::placeholder {
+                color: rgba(255, 255, 255, 0.4);
+            }
+            .foot-form input:focus {
+                border-color: var(--orange);
+                background: rgba(255, 255, 255, 0.12);
+            }
+
+            .foot-grid {
+                display: grid;
+                grid-template-columns: 1.6fr 1fr 1fr 1fr;
+                gap: 40px;
+                margin-bottom: 44px;
+            }
+            .foot-brand {
+                max-width: 300px;
+            }
+            .foot-brand .logo {
+                color: #fff;
+                margin-bottom: 14px;
+            }
+            .foot-brand p {
+                color: rgba(255, 255, 255, 0.55);
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            .foot-social {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .foot-social a {
+                width: 38px;
+                height: 38px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.07);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                display: grid;
+                place-items: center;
+                color: rgba(255, 255, 255, 0.7);
+                transition:
+                    background 0.2s ease,
+                    color 0.2s ease,
+                    transform 0.2s ease,
+                    border-color 0.2s ease;
+            }
+            .foot-social a:hover {
+                background: var(--orange);
+                border-color: var(--orange);
+                color: #fff;
+                transform: translateY(-2px);
+            }
+            .foot-social svg {
+                width: 18px;
+                height: 18px;
+            }
+            .foot-col h4 {
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: rgba(255, 255, 255, 0.45);
+                margin-bottom: 16px;
+            }
+            .foot-col a {
+                display: block;
+                color: rgba(255, 255, 255, 0.8);
+                margin-bottom: 11px;
+                font-size: 0.95rem;
+                transition:
+                    color 0.2s ease,
+                    padding-left 0.2s ease;
+            }
+            .foot-col a:hover {
+                color: #fff;
+                padding-left: 3px;
+            }
+            .foot-bottom {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 26px;
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.9rem;
+                flex-wrap: wrap;
+                gap: 14px;
+            }
+            .foot-legal {
+                display: flex;
+                gap: 22px;
+            }
+            .foot-legal a {
+                color: rgba(255, 255, 255, 0.5);
+                transition: color 0.2s ease;
+            }
+            .foot-legal a:hover {
+                color: #fff;
+            }
+
+            @media (max-width: 860px) {
+                .foot-grid {
+                    grid-template-columns: 1fr 1fr;
+                    gap: 32px;
+                }
+                .foot-brand {
+                    grid-column: span 2;
+                    max-width: none;
+                }
+                .foot-cta {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+            }
+            @media (max-width: 520px) {
+                .foot-grid {
+                    grid-template-columns: 1fr;
+                }
+                .foot-brand {
+                    grid-column: span 1;
+                }
+                .foot-form {
+                    width: 100%;
+                }
+                .foot-form input {
+                    min-width: 0;
+                    flex: 1;
+                }
+            }
+
+            /* Reveal animation */
+            .reveal {
+                opacity: 0;
+                transform: translateY(28px);
+                transition:
+                    opacity 0.6s ease,
+                    transform 0.6s ease;
+            }
+            .reveal.in {
+                opacity: 1;
+                transform: none;
+            }
+
+            /* ---------- Responsive ---------- */
+            @media (max-width: 920px) {
+                .problem-grid,
+                .solution-grid,
+                .band,
+                .testi-grid {
+                    grid-template-columns: 1fr;
+                }
+                .band-photo {
+                    min-height: 240px;
+                }
+                .band-photo::after {
+                    display: none;
+                }
+                .float-panel {
+                    position: static;
+                    width: auto;
+                    margin: 18px auto 0;
+                }
+                .hero-visual {
+                    padding-bottom: 40px;
+                }
+            }
+            @media (max-width: 860px) {
+                .nav-links {
+                    display: none;
+                }
+                .menu-toggle {
+                    display: block;
+                }
+                .steps {
+                    grid-template-columns: 1fr;
+                }
+                .ui-body {
+                    grid-template-columns: 1fr;
+                }
+                .ui-steps {
+                    border-right: none;
+                    border-bottom: 1px solid var(--line);
+                }
+                .row-head,
+                .task-row {
+                    grid-template-columns: 1.4fr 1fr;
+                }
+                .row-head .time,
+                .task-row .time {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- ===== NAV ===== -->
+        <header>
+            <div class="container">
+                <nav>
+                    <a href="#" class="logo">
+                        <span class="logo-mark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M4 7h10M4 12h7M4 17h4"
+                                    stroke="#fff"
+                                    stroke-width="2.4"
+                                    stroke-linecap="round"
+                                />
+                                <path
+                                    d="M14 14l5 3.5-5 3.5v-2.6h-3v-1.8h3z"
+                                    fill="#fff"
+                                />
+                            </svg>
+                        </span>
+                        FlowGuide
+                    </a>
+                    <div class="nav-links">
+                        <a href="#problem">Why you stall</a>
+                        <a href="#how">How it works</a>
+                        <a href="#features">Features</a>
+                        <a href="#faq">Support</a>
+                    </div>
+                    <div class="nav-cta">
+                        <a href="#" class="nav-login">Log in</a>
+                        <a href="#pricing" class="btn btn-primary"
+                            >Get started</a
+                        >
+                    </div>
+                    <button
+                        class="menu-toggle"
+                        id="menuToggle"
+                        aria-label="Open menu"
+                    >
+                        ☰
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ===== HERO ===== -->
+        <section class="hero">
+            <div class="hero-orb a"></div>
+            <div class="hero-orb b"></div>
+            <div class="container">
+                <div class="hero-copy">
+                    <span class="pill">
+                        <span class="dot"></span> For founders trapped in the
+                        "I'll do it later" loop
+                    </span>
+                    <h1>
+                        The one thing you keep
+                        <span class="strike">putting off</span> finally gets
+                        <em>done</em> — today.
+                    </h1>
+                    <p class="hero-sub">
+                        FlowGuide turns the messy pile in your head into one
+                        calm, visual path — and lights up the single next move.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#pricing" class="btn btn-primary btn-lg"
+                            >Get started</a
+                        >
+                        <a href="#how" class="link-cta">How it works →</a>
+                    </div>
+                    <p class="micro">
+                        ✓ <b>No credit card</b> · ✓ Free for 14 days · ✓ Your
+                        first win takes ~4 minutes
+                    </p>
+                </div>
+
+                <!-- Dashboard mockup -->
+                <div class="hero-visual reveal">
+                    <div class="dash">
+                        <div class="dash-bar">
+                            <span class="dot-mark" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M4 7h10M4 12h7M4 17h4"
+                                        stroke="#fff"
+                                        stroke-width="2.4"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+                            </span>
+                            <div class="dash-tabs">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="dash-ava"></div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-title">Today's flow</div>
+                            <div class="stat-row">
+                                <div class="stat">
+                                    Tasks in flow <b>22</b
+                                    ><span class="plus">+</span>
+                                </div>
+                                <div class="stat">Shipped today <b>5</b></div>
+                            </div>
+                            <div class="row-head">
+                                <span>Task</span><span>Status</span
+                                ><span>Last update</span>
+                            </div>
+                            <div class="task-row">
+                                <div class="who">
+                                    <span
+                                        class="pic"
+                                        style="background: #ff6a1a"
+                                        >HH</span
+                                    >
+                                    Write the hero headline
+                                </div>
+                                <span class="badge now">Start here</span>
+                                <span class="time">10 min · Right now</span>
+                            </div>
+                            <div class="task-row">
+                                <div class="who">
+                                    <span
+                                        class="pic"
+                                        style="background: #1f9d56"
+                                        >DM</span
+                                    >
+                                    Set up the domain
+                                </div>
+                                <span class="badge done">Shipped</span>
+                                <span class="time">Today · 09:20am</span>
+                            </div>
+                            <div class="task-row">
+                                <div class="who">
+                                    <span
+                                        class="pic"
+                                        style="background: #b3a89d"
+                                        >LP</span
+                                    >
+                                    Launch landing page
+                                </div>
+                                <span class="badge later">Avoiding</span>
+                                <span class="time">Stuck 6 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="float-panel">
+                        <h4>Your next moves</h4>
+                        <div class="mini">
+                            <span
+                                class="ic"
+                                style="
+                                    background: var(--orange-soft);
+                                    color: var(--orange-dark);
+                                "
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.9"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="8" />
+                                    <circle cx="12" cy="12" r="3.2" />
+                                    <path
+                                        d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"
+                                    />
+                                </svg>
+                            </span>
+                            <div class="txt">
+                                <b>Hero headline</b
+                                ><small>Just this · 10 min</small>
+                            </div>
+                        </div>
+                        <div class="mini">
+                            <span
+                                class="ic"
+                                style="
+                                    background: var(--green-soft);
+                                    color: var(--green);
+                                "
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.9"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M3 16.5l5.5-5.5 4 4 8-8" />
+                                    <path d="M16.5 7h4v4" />
+                                </svg>
+                            </span>
+                            <div class="txt">
+                                <b>12-day streak</b
+                                ><small>Best you've had</small>
+                            </div>
+                        </div>
+                        <div class="mini">
+                            <span
+                                class="ic"
+                                style="
+                                    background: var(--cream);
+                                    color: var(--ink-soft);
+                                "
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.9"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="8.5" />
+                                    <path d="M8.5 12l2.5 2.5 4.5-5" />
+                                </svg>
+                            </span>
+                            <div class="txt">
+                                <b>3 shipped</b><small>Before noon</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== LOGOS ===== -->
+        <div class="logos">
+            <div class="container">
+                <p>TRUSTED BY FOUNDERS BUILDING AT</p>
+                <div class="logo-row">
+                    <span>Indie Co</span><span>StartLab</span><span>Foundr</span
+                    ><span>BuildHQ</span><span>SoloPay</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PROBLEM ===== -->
+        <section class="block problem reveal" id="problem">
+            <div class="container problem-grid">
+                <div class="problem-lead">
+                    <div class="eyebrow">Why "later" keeps winning</div>
+                    <h2>
+                        It's 11pm, and the one thing that actually mattered
+                        today is still <em>not done.</em>
+                    </h2>
+                    <p>
+                        Not because you didn't care. You opened the list, saw
+                        forty things staring back, felt the weight of choosing —
+                        and quietly told yourself you'd get to it tomorrow.
+                    </p>
+                    <p class="truth">
+                        You're not lazy, and you're not broken.
+                        <span
+                            >Your flat to-do list just never showed you where to
+                            start.</span
+                        >
+                    </p>
+                </div>
+                <div class="problem-voices">
+                    <div class="voice">
+                        <div class="q">
+                            "I'll start the big one… right after I just clear my
+                            inbox first."
+                        </div>
+                        <span class="tag">Decision fatigue</span>
+                    </div>
+                    <div class="voice">
+                        <div class="q">
+                            "It's been on the list six days. I keep scrolling
+                            right past it."
+                        </div>
+                        <span class="tag">The "later" black hole</span>
+                    </div>
+                    <div class="voice">
+                        <div class="q">
+                            "I checked off five tiny things. The one that counts
+                            is still untouched."
+                        </div>
+                        <span class="tag">No real progress</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== INTUITIVE / SOLUTION (ref 2 top) ===== -->
+        <section class="block reveal">
+            <div class="container solution-grid">
+                <div class="solution-copy">
+                    <h2>An intuitive, guided system</h2>
+                    <p>
+                        FlowGuide turns your scattered tasks into a clear,
+                        sequenced path — so you always know the single next move
+                        to make, and nothing else gets in the way.
+                    </p>
+                    <a href="#how" class="btn btn-ghost">How it works →</a>
+                </div>
+
+                <div class="ui-window">
+                    <div class="ui-bar"><i></i><i></i><i></i></div>
+                    <div class="ui-body">
+                        <div class="ui-steps">
+                            <div class="ui-skel"></div>
+                            <div class="step-line">
+                                <span class="mark ok">✓</span> Brain-dump tasks
+                            </div>
+                            <div class="step-line">
+                                <span class="mark ok">✓</span> Auto-arrange flow
+                            </div>
+                            <div class="step-line active">
+                                <span class="mark active">●</span> Pick your
+                                focus
+                            </div>
+                            <div class="step-line idle">
+                                <span class="mark idle"></span
+                                ><span class="bar"></span>
+                            </div>
+                            <div class="ui-foot">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.9"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M12 3l7 3v5c0 4.5-3 7.4-7 9-4-1.6-7-4.5-7-9V6z"
+                                    />
+                                    <path d="M9 12l2 2 4-4.2" />
+                                </svg>
+                                On track
+                            </div>
+                        </div>
+                        <div class="ui-right">
+                            <div class="label">Your focus</div>
+                            <div class="sub">Right now</div>
+                            <span class="chip-dark">Deep work · 10 min</span>
+                            <div class="ui-skel long"></div>
+                            <div class="ui-skel mid"></div>
+                            <div class="ui-tile">
+                                <span class="tic">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="var(--orange-dark)"
+                                        stroke-width="1.9"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <circle cx="12" cy="12" r="8" />
+                                        <circle cx="12" cy="12" r="3.2" />
+                                        <path
+                                            d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"
+                                        />
+                                    </svg>
+                                </span>
+                                Write the hero headline
+                            </div>
+                            <div class="ui-next">
+                                <span class="nbtn">Next step ›</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== STATS BAND (ref 2 bottom) ===== -->
+        <section class="reveal" style="padding: 0 0 96px">
+            <div class="container">
+                <div class="band">
+                    <div
+                        class="band-photo"
+                        style="
+                            background-image: url(&quot;https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1100&q=80&quot;);
+                        "
+                        role="img"
+                        aria-label="Founders collaborating happily in an office"
+                    ></div>
+                    <div class="band-copy">
+                        <h2>
+                            A system built to end your "later" loop — for good.
+                        </h2>
+                        <ul class="band-list">
+                            <li>
+                                <span class="ck"
+                                    ><svg viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M5 12l4 4 10-10"
+                                            stroke="#fff"
+                                            stroke-width="2.6"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        /></svg
+                                ></span>
+                                3,200+ founders building daily
+                            </li>
+                            <li>
+                                <span class="ck"
+                                    ><svg viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M5 12l4 4 10-10"
+                                            stroke="#fff"
+                                            stroke-width="2.6"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        /></svg
+                                ></span>
+                                1M+ tasks moved to "Shipped"
+                            </li>
+                            <li>
+                                <span class="ck"
+                                    ><svg viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M5 12l4 4 10-10"
+                                            stroke="#fff"
+                                            stroke-width="2.6"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        /></svg
+                                ></span>
+                                41-day average momentum streak
+                            </li>
+                            <li>
+                                <span class="ck"
+                                    ><svg viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M5 12l4 4 10-10"
+                                            stroke="#fff"
+                                            stroke-width="2.6"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        /></svg
+                                ></span>
+                                4 minutes to your first win
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOW IT WORKS ===== -->
+        <section class="block reveal" id="how">
+            <div class="container">
+                <div class="section-head">
+                    <div class="eyebrow">How FlowGuide works</div>
+                    <h2>
+                        From overwhelm to obvious next step — in three moves
+                    </h2>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <img
+                            class="shot"
+                            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=640&q=80"
+                            alt="Planning tasks with sticky notes"
+                        />
+                        <div class="step-body">
+                            <div class="num">1</div>
+                            <h3>Dump everything in</h3>
+                            <p>
+                                Brain-dump tasks, goals, and half-ideas.
+                                FlowGuide instantly arranges them onto a visual
+                                board instead of a flat list.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <img
+                            class="shot"
+                            src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=640&q=80"
+                            alt="Focused work on a single task"
+                        />
+                        <div class="step-body">
+                            <div class="num">2</div>
+                            <h3>See the guided path</h3>
+                            <p>
+                                Smart sequencing highlights the single next
+                                action and dims the noise, so your eyes land on
+                                what to do right now.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <img
+                            class="shot"
+                            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640&q=80"
+                            alt="Progress and momentum dashboard"
+                        />
+                        <div class="step-body">
+                            <div class="num">3</div>
+                            <h3>Watch momentum build</h3>
+                            <p>
+                                Each finished task visibly flows to "Shipped."
+                                Progress you can see keeps the dopamine — and
+                                the work — moving.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FEATURES (bento) ===== -->
+        <section class="block features reveal" id="features">
+            <div class="container">
+                <div class="section-head">
+                    <div class="eyebrow">What's inside</div>
+                    <h2>Visual systems designed to pull you forward</h2>
+                    <p>
+                        Every feature exists for one reason — to shrink the gap
+                        between you and your next real move.
+                    </p>
+                </div>
+                <div class="bento">
+                    <!-- Next-Step Spotlight (large) -->
+                    <div class="card lg">
+                        <div class="ic">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="8" />
+                                <circle cx="12" cy="12" r="3.2" />
+                                <path
+                                    d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"
+                                />
+                            </svg>
+                        </div>
+                        <h3>Next-Step Spotlight</h3>
+                        <p>
+                            One task is always highlighted as "start here,"
+                            killing the choose-what-to-do paralysis before it
+                            starts.
+                        </p>
+                        <div class="spot-demo">
+                            <div class="t-row dim">
+                                Reply to the investor email
+                            </div>
+                            <div class="t-row hot">
+                                <span class="here">Start here</span> Write the
+                                hero headline
+                            </div>
+                            <div class="t-row dim">Plan the Q3 roadmap</div>
+                        </div>
+                    </div>
+
+                    <!-- Flow Boards (large) -->
+                    <div class="card lg">
+                        <div class="ic">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <rect
+                                    x="3"
+                                    y="4"
+                                    width="4.6"
+                                    height="16"
+                                    rx="1.6"
+                                />
+                                <rect
+                                    x="9.7"
+                                    y="4"
+                                    width="4.6"
+                                    height="11"
+                                    rx="1.6"
+                                />
+                                <rect
+                                    x="16.4"
+                                    y="4"
+                                    width="4.6"
+                                    height="13"
+                                    rx="1.6"
+                                />
+                            </svg>
+                        </div>
+                        <h3>Flow Boards</h3>
+                        <p>
+                            See work move across Stuck → Guided → Shipped. The
+                            visual motion makes progress feel real and
+                            rewarding.
+                        </p>
+                        <div class="board-demo">
+                            <div class="bcol">
+                                <span class="bhead">Stuck</span><i></i><i></i>
+                            </div>
+                            <div class="bcol">
+                                <span class="bhead">Guided</span
+                                ><i class="o"></i>
+                            </div>
+                            <div class="bcol">
+                                <span class="bhead">Shipped</span
+                                ><i class="g"></i><i class="g"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time-boxing (small) -->
+                    <div class="card sm">
+                        <div class="ic">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="8.5" />
+                                <path d="M12 7.4V12l3 2" />
+                            </svg>
+                        </div>
+                        <h3>Time-boxing cues</h3>
+                        <p>
+                            Every task carries a realistic estimate so starting
+                            feels small and doable, not daunting.
+                        </p>
+                        <span class="accent-chip">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="8.5" />
+                                <path d="M12 7.4V12l3 2" />
+                            </svg>
+                            ≈ 10 min to start
+                        </span>
+                    </div>
+
+                    <!-- Gentle nudges (small) -->
+                    <div class="card sm">
+                        <div class="ic">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M18 8.5a6 6 0 1 0-12 0c0 6.5-2.5 8.5-2.5 8.5h17S18 15 18 8.5z"
+                                />
+                                <path d="M13.7 20.5a2 2 0 0 1-3.4 0" />
+                            </svg>
+                        </div>
+                        <h3>Gentle nudges</h3>
+                        <p>
+                            When a task sits too long, FlowGuide flags it and
+                            suggests the tiniest first action to break the
+                            freeze.
+                        </p>
+                        <span class="accent-chip green"
+                            >Try a 2-min start →</span
+                        >
+                    </div>
+
+                    <!-- Momentum streaks (small) -->
+                    <div class="card sm">
+                        <div class="ic">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M3 16.5l5.5-5.5 4 4 8-8" />
+                                <path d="M16.5 7h4v4" />
+                            </svg>
+                        </div>
+                        <h3>Momentum streaks</h3>
+                        <p>
+                            Daily visual streaks reward consistency, turning
+                            "doing the work" into a habit you don't want to
+                            break.
+                        </p>
+                        <div class="streak-demo">
+                            <span class="d on"></span><span class="d on"></span
+                            ><span class="d on"></span><span class="d on"></span
+                            ><span class="d on"></span><span class="d on"></span
+                            ><span class="d on"></span><span class="d on"></span
+                            ><span class="d on"></span><span class="d on"></span
+                            ><span class="d on"></span
+                            ><span class="d on"></span>
+                            <span class="lbl">12-day streak</span>
+                        </div>
+                    </div>
+
+                    <!-- Solo or team flows (wide) -->
+                    <div class="card wide">
+                        <div class="wide-copy">
+                            <div class="ic">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.9"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="9" cy="8" r="3.2" />
+                                    <path
+                                        d="M3.6 19c0-3 2.4-5 5.4-5s5.4 2 5.4 5"
+                                    />
+                                    <path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.6" />
+                                    <path
+                                        d="M17.6 14.2c2.1.5 3.7 2.3 3.7 4.8"
+                                    />
+                                </svg>
+                            </div>
+                            <h3>Solo or team flows</h3>
+                            <p>
+                                Run your own systems or share a board with a
+                                co-founder or VA — everyone sees the same next
+                                move, in real time.
+                            </p>
+                        </div>
+                        <div class="ava-stack">
+                            <span class="av" style="background: #ff6a1a"
+                                >HH</span
+                            >
+                            <span class="av" style="background: #1f9d56"
+                                >DM</span
+                            >
+                            <span class="av" style="background: #7c5cf0"
+                                >AR</span
+                            >
+                            <span class="av" style="background: #ec5fa0"
+                                >LP</span
+                            >
+                            <span class="more">+5 on the board</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TESTIMONIALS (ref 3) ===== -->
+        <section class="block testi reveal">
+            <div class="container">
+                <h2>3,200+ founders and counting</h2>
+                <div class="testi-grid">
+                    <div class="tcard">
+                        <div class="quote">
+                            "I shipped my MVP in 3 weeks after 6 months of
+                            'later.' Seeing the next step literally lit up
+                            changed everything. I finally stopped reorganizing
+                            my list and actually started doing the work."
+                        </div>
+                        <div class="person">
+                            <img
+                                class="face"
+                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120&q=80"
+                                alt="Jenna D."
+                            />
+                            <div>
+                                <b>Jenna D.</b><small>Solo SaaS founder</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tcard">
+                        <div class="quote">
+                            "The quality of thought behind FlowGuide is
+                            incredible. It took my chaotic backlog, sequenced
+                            it, and pointed me straight at the one task that
+                            mattered — no friction, no overwhelm. A real
+                            pleasure to use."
+                        </div>
+                        <div class="person">
+                            <img
+                                class="face"
+                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=120&h=120&q=80"
+                                alt="Jonathan L."
+                            />
+                            <div>
+                                <b>Jonathan L.</b><small>Agency director</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tcard">
+                        <div class="quote">
+                            "It was such a relief to use a system this good.
+                            Everything I need is in one place, the next move is
+                            always obvious, and I wouldn't change a thing about
+                            the way FlowGuide works."
+                        </div>
+                        <div class="person">
+                            <img
+                                class="face"
+                                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&h=120&q=80"
+                                alt="Amanda R."
+                            />
+                            <div>
+                                <b>Amanda R.</b
+                                ><small>E-commerce founder</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tcard">
+                        <div class="quote">
+                            "The momentum streak is dangerously motivating. I
+                            haven't broken my chain in 41 days and revenue is
+                            finally climbing. It's reassuring to use a product
+                            that genuinely changes how I work each day."
+                        </div>
+                        <div class="person">
+                            <img
+                                class="face"
+                                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80"
+                                alt="Clive H."
+                            />
+                            <div>
+                                <b>Clive H.</b><small>Startup operator</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CTA BAND / PRICING ===== -->
+        <section class="cta-wrap reveal" id="pricing">
+            <div class="container">
+                <div class="cta-band">
+                    <div class="cta-inner">
+                        <div class="cta-trust">
+                            <span class="cta-avatars">
+                                <span
+                                    style="
+                                        background-image: url(&quot;https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=60&h=60&q=80&quot;);
+                                    "
+                                ></span>
+                                <span
+                                    style="
+                                        background-image: url(&quot;https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=60&h=60&q=80&quot;);
+                                    "
+                                ></span>
+                                <span
+                                    style="
+                                        background-image: url(&quot;https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=60&h=60&q=80&quot;);
+                                    "
+                                ></span>
+                                <span
+                                    style="
+                                        background-image: url(&quot;https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=60&h=60&q=80&quot;);
+                                    "
+                                ></span>
+                            </span>
+                            <span class="stars">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2l2.9 6 6.6.6-5 4.3 1.5 6.5L12 16.9 5.9 19.4 7.4 12.9l-5-4.3 6.6-.6z"
+                                    />
+                                </svg>
+                                4.9/5 from 3,200+ founders
+                            </span>
+                        </div>
+
+                        <h2>Stop planning to start. Start.</h2>
+                        <p>
+                            Join 3,200+ entrepreneurs who replaced "I'll do it
+                            later" with a system that guides them to done —
+                            every single day.
+                        </p>
+
+                        <div class="cta-actions">
+                            <a href="#" class="btn btn-lg btn-white"
+                                >Get started free</a
+                            >
+                            <a href="#how" class="btn btn-lg btn-outline"
+                                >See how it works</a
+                            >
+                        </div>
+
+                        <div class="cta-fine">
+                            <span>
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.4"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M5 12l4 4 10-10" />
+                                </svg>
+                                No credit card
+                            </span>
+                            <span>
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.4"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M5 12l4 4 10-10" />
+                                </svg>
+                                Full access
+                            </span>
+                            <span>
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.4"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M5 12l4 4 10-10" />
+                                </svg>
+                                Cancel anytime
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FAQ (asymmetric) ===== -->
+        <section class="block faq reveal" id="faq">
+            <div class="container faq-layout">
+                <aside class="faq-aside">
+                    <div class="eyebrow">Questions</div>
+                    <h2>Everything you might be wondering</h2>
+                    <p>
+                        Can't find what you're looking for? Reach out — we
+                        usually reply within a few hours.
+                    </p>
+                    <div class="faq-support">
+                        <span class="faq-support-ic">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M21 12a8 8 0 0 1-8 8H6l-3 2.5V12a8 8 0 0 1 16 0z"
+                                />
+                                <path d="M8.5 11h7M8.5 14.5h4" />
+                            </svg>
+                        </span>
+                        <div>
+                            <b>Still stuck?</b>
+                            <a href="#" class="link-cta">Talk to our team →</a>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-q">
+                            How is this different from Trello or a normal to-do
+                            app? <span class="chev">+</span>
+                        </button>
+                        <div class="faq-a">
+                            <p>
+                                Most tools store tasks. FlowGuide actively
+                                guides you — it highlights the single next step,
+                                dims distractions, and shows visible momentum,
+                                so you act instead of just organizing.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q">
+                            I've tried everything and still procrastinate. Will
+                            this work?
+                            <span class="chev">+</span>
+                        </button>
+                        <div class="faq-a">
+                            <p>
+                                Task-delay is usually a clarity problem, not a
+                                willpower problem. By always showing one tiny,
+                                obvious next action, FlowGuide removes the
+                                friction that makes you stall.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q">
+                            How long does setup take?
+                            <span class="chev">+</span>
+                        </button>
+                        <div class="faq-a">
+                            <p>
+                                Under 5 minutes. Brain-dump your tasks, and
+                                FlowGuide auto-arranges them into a guided flow
+                                board for you.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q">
+                            Can I use it with my team?
+                            <span class="chev">+</span>
+                        </button>
+                        <div class="faq-a">
+                            <p>
+                                Yes. Share any board with a co-founder,
+                                contractor, or VA so everyone sees the same
+                                priorities and next moves.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q">
+                            What happens after the free trial?
+                            <span class="chev">+</span>
+                        </button>
+                        <div class="faq-a">
+                            <p>
+                                You get 14 days of full access with no card
+                                required. After that, keep going on a simple
+                                monthly plan or downgrade to the free tier —
+                                your data stays yours.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FOOTER (dark) ===== -->
+        <footer>
+            <div class="container">
+                <!-- Newsletter / final nudge -->
+                <div class="foot-cta">
+                    <div>
+                        <h3>Build momentum every week</h3>
+                        <p>
+                            One short, practical email on beating
+                            procrastination and shipping faster — no spam,
+                            unsubscribe anytime.
+                        </p>
+                    </div>
+                    <form class="foot-form" onsubmit="return false;">
+                        <input
+                            type="email"
+                            placeholder="you@company.com"
+                            aria-label="Email address"
+                        />
+                        <button type="submit" class="btn btn-primary">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Brand + sitemap -->
+                <div class="foot-grid">
+                    <div class="foot-brand">
+                        <a href="#" class="logo">
+                            <span class="logo-mark" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M4 7h10M4 12h7M4 17h4"
+                                        stroke="#fff"
+                                        stroke-width="2.4"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M14 14l5 3.5-5 3.5v-2.6h-3v-1.8h3z"
+                                        fill="#fff"
+                                    />
+                                </svg>
+                            </span>
+                            FlowGuide
+                        </a>
+                        <p>
+                            Visual systems that guide entrepreneurs from stuck
+                            to shipped.
+                        </p>
+                        <div class="foot-social">
+                            <a href="#" aria-label="FlowGuide on X">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M18.2 3h3.3l-7.2 8.2L23 21h-6.6l-5.2-6.8L5.3 21H2l7.7-8.8L2 3h6.8l4.7 6.2L18.2 3zm-1.2 16h1.8L7.1 4.9H5.2L17 19z"
+                                    />
+                                </svg>
+                            </a>
+                            <a href="#" aria-label="FlowGuide on LinkedIn">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.3 8h4.4v13H.3V8zm7.2 0h4.2v1.8h.06c.6-1.1 2-2.2 4.1-2.2 4.4 0 5.2 2.9 5.2 6.6V21h-4.4v-6c0-1.4 0-3.3-2-3.3s-2.3 1.6-2.3 3.2V21H7.5V8z"
+                                    />
+                                </svg>
+                            </a>
+                            <a href="#" aria-label="FlowGuide on GitHub">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49l-.01-1.9c-2.78.62-3.37-1.2-3.37-1.2-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.6.69.49A10.03 10.03 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="foot-col">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#how">How it works</a>
+                        <a href="#pricing">Pricing</a>
+                        <a href="#">Changelog</a>
+                    </div>
+                    <div class="foot-col">
+                        <h4>Company</h4>
+                        <a href="#">About</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Careers</a>
+                    </div>
+                    <div class="foot-col">
+                        <h4>Support</h4>
+                        <a href="#faq">FAQ</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Help center</a>
+                    </div>
+                </div>
+
+                <!-- Legal bar -->
+                <div class="foot-bottom">
+                    <span>© 2026 FlowGuide. All rights reserved.</span>
+                    <div class="foot-legal">
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Security</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            document
+                .getElementById("menuToggle")
+                .addEventListener("click", () => {
+                    const links = document.querySelector(".nav-links");
+                    links.style.display =
+                        getComputedStyle(links).display === "none"
+                            ? "flex"
+                            : "none";
+                });
+            document.querySelectorAll(".faq-q").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const item = btn.parentElement;
+                    const isOpen = item.classList.contains("open");
+                    document
+                        .querySelectorAll(".faq-item")
+                        .forEach((i) => i.classList.remove("open"));
+                    if (!isOpen) item.classList.add("open");
+                });
+            });
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add("in");
+                            io.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.12 },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => io.observe(el));
+        </script>
+    </body>
+</html>
